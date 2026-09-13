@@ -2,19 +2,19 @@ include:
   # --- Standard Firmware Builds ---
   
   # 1. Dongle Unit
-  - board: xiao_ble//zmk
+  - board: xiao_ble
     shield: totem_dongle
 
   # 2. Left Keyboard Half
-  - board: xiao_ble//zmk
+  - board: xiao_ble
     shield: totem_left
 
   # 3. Right Keyboard Half
-  - board: xiao_ble//zmk
+  - board: xiao_ble
     shield: totem_right
 
   # --- Settings Reset Builds ---
 
   # 4. Settings Reset
-  - board: xiao_ble//zmk
+  - board: xiao_ble
     shield: settings_reset
