@@ -1,40 +1,47 @@
-# ZMK Studio / Sleep Fixes
+# ZMK Studio / Totem dongle fixes
 
-This snapshot is patched for the attached TOTEM dongle configuration.
+## Dongle USB / COM ports
 
-## Firmware changes
+The Seeed XIAO BLE board exposes a normal CDC-ACM UART at `&usb_cdc_acm_uart`.
+ZMK Studio's `studio-rpc-usb-uart` snippet adds a second CDC-ACM UART for the
+Studio RPC protocol. The dongle disables the normal board CDC node and keeps
+the Studio RPC node, so Windows should enumerate one Studio serial port.
 
-- Pins ZMK to v0.3.0 for a stable Zephyr/ZMK baseline.
-- Enables ZMK Studio locking on the dongle.
-- Adds `&studio_unlock` to the far-right key on the Button layer.
-- Disables the XIAO BLE board's default CDC-ACM console on the dongle, leaving the Studio RPC CDC-ACM endpoint as the only USB serial device.
-- Uses the upstream mock kscan approach for the dongle and removes the dongle's physical-layout kscan links.
-- Keeps the dongle awake over USB while leaving normal deep sleep enabled on both battery-powered halves.
-- Leaves the existing matrix kscan `wakeup-source` setting in place for the halves.
+The dongle overlay is now part of the local Totem shield definition, so it is
+applied after `totem.dtsi` defines `kscan0`. This avoids the previous
+`undefined node label 'kscan0'` devicetree failure.
+
+## Dongle kscan
+
+The dongle has no keys, so it disables the physical Totem `kscan0` and selects
+`zmk,kscan = &mock_kscan`. The physical layout no longer hard-codes a kscan,
+so it falls back to the chosen mock scanner as recommended by ZMK's dongle
+guidance.
+
+## Sleep
+
+Deep sleep is disabled on both split halves. ZMK issue #2904 documents a
+split-central hang when a peripheral goes to sleep, with disabling peripheral
+sleep reported as the working workaround. The USB dongle is also configured
+without deep sleep because it is continuously powered.
+
+The halves still enter normal ZMK idle state, but they stay BLE-connected so
+key presses do not depend on deep-sleep wake/reconnect behavior.
 
 ## Studio unlock
 
-The Button layer is held with the SLASH key on the Base layer.
+`&studio_unlock` is on the far-right key of the Button layer. On Base that
+physical key is the `/` key (`&lt 7 SLASH`).
 
-Press: **hold SLASH, tap P, release SLASH**
+Press:
 
-After a reconnect, the Studio lock normally needs to be unlocked again.
+1. Hold `/`
+2. While holding `/`, press `P`
+3. Release `/`
 
-## First flash
+That invokes `&studio_unlock`.
 
-Because this is a dongle configuration change, reset settings on all three devices before flashing the patched firmware. This clears old BLE bonds, so pair the keyboard again afterward.
+## ZMK version
 
-1. Flash `settings_reset` to the dongle.
-2. Flash `settings_reset` to the left half.
-3. Flash `settings_reset` to the right half.
-4. Flash the patched dongle firmware.
-5. Flash the patched left firmware.
-6. Flash the patched right firmware.
-
-Then connect the dongle by USB and open ZMK Studio. The dongle should expose one Studio serial port.
-
-## Windows access denied
-
-If Windows still reports `access is denied` on the remaining COM port, close any serial terminal/monitor or flashing utility that has the port open, unplug/replug the dongle, and reopen ZMK Studio.
-
-This archive contains configuration changes only. The firmware itself should be rebuilt by the repository's normal GitHub Actions workflow.
+The manifest is pinned to ZMK `v0.3.0`, whose release notes include the Studio+USB
+build fix and which keeps this configuration on the known-stable Zephyr 3.5 era.

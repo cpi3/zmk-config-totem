@@ -2,13 +2,8 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: ghyatzo
-      url-base: https://github.com/ghyatzo
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: v0.3.0
       import: app/west.yml
-    - name: zmk-totem-module
-      remote: ghyatzo
-      revision: dongle

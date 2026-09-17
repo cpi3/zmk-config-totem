@@ -1,26 +1,17 @@
 include:
-  # --- Standard Firmware Builds ---
-
-  # 1. Dongle Unit — the BLE "central" in a dongle setup, and the only part
-  #    that talks to your computer, so ZMK Studio's USB link
-  #    (studio-rpc-usb-uart) and the Studio Kconfig go here ONLY.
-  #    CONFIG_ZMK_STUDIO_LOCKING=n means Studio can push keymap changes
-  #    immediately, without a &studio_unlock keybind first.
+  # USB dongle: BLE split central + ZMK Studio transport.
   - board: xiao_ble
     shield: totem_dongle
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_STUDIO_LOCKING=y
 
-  # 2. Left Keyboard Half (peripheral)
+  # Battery-powered split halves.
   - board: xiao_ble
     shield: totem_left
 
-  # 3. Right Keyboard Half (peripheral)
   - board: xiao_ble
     shield: totem_right
 
-  # --- Settings Reset Builds ---
-
-  # 4. Settings Reset
+  # Settings reset image, used when re-pairing after firmware changes.
   - board: xiao_ble
     shield: settings_reset

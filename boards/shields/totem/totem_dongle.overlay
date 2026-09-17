@@ -1,0 +1,32 @@
+/*
+ * TOTEM USB dongle
+ *
+ * The dongle is the BLE split central and has no physical keys of its own.
+ * Use ZMK's mock kscan and keep the physical layout selected so ZMK Studio
+ * can still describe the Totem key positions.
+ */
+
+#include "totem.dtsi"
+
+&kscan0 {
+    status = "disabled";
+};
+
+&usb_cdc_acm_uart {
+    /* The XIAO BLE board's normal CDC port is not the ZMK Studio RPC port. */
+    status = "disabled";
+};
+
+/ {
+    mock_kscan: mock_kscan_0 {
+        compatible = "zmk,kscan-mock";
+        columns = <0>;
+        rows = <0>;
+        events = <0>;
+    };
+
+    chosen {
+        zmk,kscan = &mock_kscan;
+        zmk,physical-layout = &default_layout;
+    };
+};
