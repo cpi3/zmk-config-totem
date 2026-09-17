@@ -1,0 +1,47 @@
+/*
+ * Dongle-only fixes.
+ *
+ * The XIAO BLE board already provides a CDC-ACM console UART. The
+ * studio-rpc-usb-uart snippet adds another CDC-ACM UART for ZMK Studio,
+ * so without this override the dongle enumerates two COM ports. Disable
+ * the board's default console endpoint and leave the Studio RPC endpoint.
+ *
+ * The dongle has no physical keys. Use ZMK's mock kscan and remove the
+ * physical-layout -> kscan associations on this build, matching the
+ * upstream dongle guidance.
+ */
+
+#include <dt-bindings/zmk/matrix_transform.h>
+
+&usb_cdc_acm_uart {
+    status = "disabled";
+};
+
+&kscan0 {
+    status = "disabled";
+};
+
+&default_layout {
+    /delete-property/ kscan;
+};
+
+&cvaldez_layout {
+    /delete-property/ kscan;
+};
+
+/ {
+    mock_kscan: mock_kscan_0 {
+        compatible = "zmk,kscan-mock";
+        columns = <0>;
+        rows = <0>;
+        events = <0>;
+    };
+
+    chosen {
+        zmk,kscan = &mock_kscan;
+    };
+};
+
+&snippet_studio_rpc_usb_uart {
+    label = "ZMK Studio RPC";
+};

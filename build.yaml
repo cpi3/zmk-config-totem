@@ -9,7 +9,7 @@ include:
   - board: xiao_ble
     shield: totem_dongle
     snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_STUDIO_LOCKING=n
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_STUDIO_LOCKING=y
 
   # 2. Left Keyboard Half (peripheral)
   - board: xiao_ble

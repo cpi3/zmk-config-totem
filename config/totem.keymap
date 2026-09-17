@@ -14,11 +14,9 @@
 // bottom). Now it's yours to edit — and ZMK Studio can add layers into the
 // two reserved slots without you ever needing to touch this file or reflash.
 //
-// NOTE ON STUDIO: this build sets CONFIG_ZMK_STUDIO_LOCKING=n in build.yaml,
-// so Studio changes apply immediately — no &studio_unlock keybind needed.
-// If you'd rather require an explicit "unlock" tap before Studio can push
-// changes, remove that cmake-arg and bind &studio_unlock somewhere (e.g. on
-// the Button layer), see: https://zmk.dev/docs/keymaps/behaviors/studio-unlock
+// NOTE ON STUDIO: this build sets CONFIG_ZMK_STUDIO_LOCKING=y in build.yaml.
+// Hold the Button layer key (SLASH) and tap P to trigger &studio_unlock.
+// Studio relocks on disconnect, so repeat that key sequence after reconnecting.
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
@@ -143,7 +141,7 @@
     Button {
         label = "Button";
         bindings = <
-                &bt BT_CLR         &bootloader  &trans     &trans      &bt BT_SEL 0         &trans      &trans     &trans  &bootloader    &trans
+                &bt BT_CLR         &bootloader  &trans     &trans      &bt BT_SEL 0         &trans      &trans     &trans  &bootloader    &studio_unlock
                 &kp LGUI           &kp LALT     &kp LCTRL  &kp LSHIFT  &bt BT_SEL 1         &trans  &kp RSHIFT  &kp RCTRL     &kp RALT  &kp RGUI
         &trans  &ext_power EP_TOG  &trans       &trans     &trans      &bt BT_SEL 2         &trans      &trans     &trans       &trans    &trans  &trans
                                                 &trans     &trans      &trans               &trans      &trans     &trans
