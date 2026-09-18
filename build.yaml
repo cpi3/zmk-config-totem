@@ -1,17 +1,11 @@
 include:
-  # USB dongle: BLE split central + ZMK Studio transport.
-  - board: xiao_ble
-    shield: totem_dongle
-    snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_STUDIO_LOCKING=y
-
-  # Battery-powered split halves.
-  - board: xiao_ble
+  - board: seeeduino_xiao_ble
     shield: totem_left
-
-  - board: xiao_ble
+  - board: seeeduino_xiao_ble
     shield: totem_right
-
-  # Settings reset image, used when re-pairing after firmware changes.
-  - board: xiao_ble
+  - board: seeeduino_xiao_ble
+    shield: totem_dongle prospector_adapter
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: seeeduino_xiao_ble
     shield: settings_reset

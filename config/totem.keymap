@@ -3,37 +3,30 @@
 //                                                        ▄▀▀▀▄  ▄  ▄▀▀▀▄  ▄  ▄▀▀▀▄  █  ▄▀▀▀▄
 //                                                        █   █  █  █   █  █  █   █  █  █   █
 //                                                         ▀▀▀   █   ▀▀▀   █   ▀▀▀   ▀   ▀▀▀
-//                                                               █      ▄▄▄█▄▄▄    █   █
+//                                                               █      ▄▄▄█▄▄▄    █   █  
 //                                                               ▀      █  █  █     █▄█
 //                                                             ▀▀▀▀▀    █  █  █      ▀
 //                                                                      ▀  ▀  ▀
 //
-// This is the config repo's copy of the TOTEM keymap.
-// ZMK Studio locking is enabled for the dongle build, so the Button-layer
-// &studio_unlock binding below is required before Studio can write changes.
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/outputs.h>
-#include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/pointing.h>
+#include "keys_de.h"
 
 #define Base        0
-#define Media       1
-#define Nav         2
-#define Mouse       3
-#define Sym         4
-#define Num         5
-#define Fun         6
-#define Button      7
-#define Game        8
-#define Gameplus    9
+#define Nav         1
+#define Sym         2
+#define Fun         3
+#define Game        4
+#define Gameplus    5
 
 &mt {
     quick-tap-ms = <100>;
     global-quick-tap;
     flavor = "tap-preferred";
-    tapping-term-ms = <170>;
+    tapping-term-ms = <250>;
 };
 
 &lt {
@@ -43,134 +36,305 @@
 };
 
 / {
-
     behaviors {
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
             flavor = "tap-preferred";
-            tapping-term-ms = <240>;
-            quick-tap-ms = <150>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <125>;
             global-quick-tap;
-            bindings =
-                <&kp>,
-                <&kp>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        LongPress: LongPress {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LONGPRESS";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <400>;
+            flavor = "tap-preferred";
+            hold-trigger-on-release;
+        };
+
+        HRShiftR: HRShiftR {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRSHIFTR";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            hold-trigger-on-release;
+            hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 25 32 33 34>;
+            quick-tap-ms = <125>;
+        };
+
+        HRShiftL: HRShiftL {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRSHIFTL";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            hold-trigger-on-release;
+            hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 26 27 28 29 30 31 35 36 37>;
+            quick-tap-ms = <125>;
+        };
+
+        HMR: HMR {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HMR";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            hold-trigger-on-release;
+            flavor = "tap-preferred";
+            hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 25 32 33 34>;
+            quick-tap-ms = <125>;
+        };
+
+        HML: HML {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HML";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            hold-trigger-on-release;
+            flavor = "tap-preferred";
+            hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 26 27 28 29 30 31 35 36 37>;
+            quick-tap-ms = <125>;
+        };
+
+        tlp: tlp {
+            compatible = "zmk,behavior-hold-tap";
+            label = "TOGGLELAYERPRESS";
+            bindings = <&tog>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <350>;
+            flavor = "tap-preferred";
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        caps {
+            bindings = <&caps_word>;
+            key-positions = <34 35>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        sqt {
+            bindings = <&kp DE_SQT>;
+            key-positions = <16 17>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        minus {
+            bindings = <&kp DE_MINUS>;
+            key-positions = <13 12>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        underscore {
+            bindings = <&kp DE_UNDERSCORE>;
+            key-positions = <2 3>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        dqt {
+            bindings = <&kp DE_DQT>;
+            key-positions = <7 6>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        question {
+            bindings = <&kp DE_QUESTION>;
+            key-positions = <1 2>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        excl {
+            bindings = <&kp DE_EXCLAMATION>;
+            key-positions = <11 12>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        slash {
+            bindings = <&kp DE_SLASH>;
+            key-positions = <24 23>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        backslash {
+            bindings = <&kp DE_BACKSLASH>;
+            key-positions = <23 22>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        left_parenthesis {
+            bindings = <&kp DE_LEFT_PARENTHESIS>;
+            key-positions = <27 28>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        right_parenthesis {
+            bindings = <&kp DE_RIGHT_PARENTHESIS>;
+            key-positions = <28 29>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        and {
+            bindings = <&kp DE_AMPERSAND>;
+            key-positions = <17 18>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        pipe {
+            bindings = <&kp DE_PIPE>;
+            key-positions = <7 8>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        plus {
+            bindings = <&kp DE_PLUS>;
+            key-positions = <0 1>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        equal {
+            bindings = <&kp DE_EQUAL>;
+            key-positions = <10 11>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
+        };
+
+        asterisk {
+            bindings = <&kp DE_ASTERISK>;
+            key-positions = <21 22>;
+            timeout-ms = <150>;
+            layers = <0>;
+            require-prior-idle-ms = <100>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-    Base {
-        label = "Base";
-        bindings = <
-                &kp Q       &kp W       &kp E         &kp R         &kp T                         &kp Y        &kp U         &kp I       &kp O               &kp P
-                &hm LGUI A  &hm LALT S  &hm LCTRL D   &hm LSHIFT F  &kp G                         &kp H  &hm RSHFT J   &hm RCTRL K  &hm RALT L  &hm RGUI SEMICOLON
-        &trans  &kp Z       &kp X       &kp C         &kp V         &kp B                         &kp N        &kp M     &kp COMMA     &kp DOT         &lt 7 SLASH  &trans
-                                        &lt 1 ESCAPE  &lt 2 TAB     &lt 3 SPACE         &lt 4 BACKSPACE  &lt 5 ENTER  &lt 6 DELETE
-        >;
-    };
+        KAY {
+            display-name = "KAY";
+            bindings = <
+                 &kp DE_K        &kp DE_PERIOD   &kp DE_A         &kp DE_COMMA           &kp DE_Y           &kp DE_P   &kp DE_D              &kp DE_L         &kp DE_M           &kp DE_J
+                 &HML LGUI DE_H  &HML LALT DE_O  &HML LCTRL DE_E  &HRShiftL LSHIFT DE_I  &kp DE_U           &kp DE_G   &HRShiftR RSHFT DE_T  &HMR RCTRL DE_R  &HMR RALT DE_N     &HMR RGUI DE_S
+&mt ESCAPE DE_X  &kp DE_Z        &kp DE_Q        &kp DE_A_UMLAUT  &kp DE_U_UMLAUT        &kp DE_O_UMLAUT    &kp DE_B   &mt LC(DE_C) DE_C     &kp DE_W         &mt LC(DE_V) DE_V  &kp DE_F        &kp DE_ESZETT
+                                                 &tlp 4 LEFT_GUI  &lt 2 TAB              &kp DE_SPACE       &kp ENTER  &lt 1 BSPC            &lt 3 DELETE
+            >;
+        };
 
-    Media {
-        label = "Media";
-        bindings = <
-                &trans    &trans    &trans     &trans      &trans               &trans            &trans             &trans           &trans      &trans
-                &kp LGUI  &kp LALT  &kp LCTRL  &kp LSHIFT  &trans               &trans    &kp C_PREVIOUS  &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_NEXT
-        &trans  &trans    &trans    &trans     &trans      &trans               &trans            &trans             &trans           &trans      &trans  &trans
-                                    &trans     &trans      &tog 8           &kp C_STOP  &kp C_PLAY_PAUSE             &trans
-        >;
-    };
+        KAY+ {
+            bindings = <
+            &kp DE_DEGREE  &kp DE_EURO      &kp DOLLAR      &kp DE_SLASH      &kp DE_BACKSLASH       &kp DE_AMPS           &kp DE_PERCENT  &kp DE_LEFT_BRACKET      &kp DE_RIGHT_BRACKET      &kp DE_ACUTE
+            &kp DE_CARET   &kp DE_QUESTION  &kp DE_EXCL     &kp DE_MINUS      &kp DE_UNDER           &kp DE_DOUBLE_QUOTES  &kp DE_SQT      &kp DE_LEFT_PARENTHESIS  &kp DE_RIGHT_PARENTHESIS  &kp DE_GRAVE
+&kp ESCAPE  &kp DE_PIPE    &kp DE_AT        &kp DE_SECTION  &kp DE_LESS_THAN  &kp DE_GREATER_THAN    &kp DE_ASTRK          &kp DE_HASH     &kp DE_LEFT_BRACE        &kp DE_RIGHT_BRACE        &kp DE_TILDE  &none
+                                            &trans          &trans            &trans                 &trans                &trans          &trans
+            >;
 
-    Nav {
-        label = "Nav";
-        bindings = <
-                &kp DELETE    &trans    &trans     &trans      &trans                       &trans     &trans         &trans       &trans       &trans
-                &kp LEFT_GUI  &kp LALT  &kp LCTRL  &kp LSHIFT  &kp SQT                    &kp CAPS   &kp LEFT       &kp DOWN       &kp UP    &kp RIGHT
-        &trans  &kp LEFT      &kp DOWN  &kp UP     &kp RIGHT   &kp C_PLAY_PAUSE         &kp INSERT   &kp HOME  &kp PAGE_DOWN  &kp PAGE_UP      &kp END  &trans
-                                        &trans     &trans      &trans                   &kp DELETE  &kp ENTER         &trans
-        >;
-    };
+            label = "KAY+";
+        };
 
-    Mouse {
-        label = "Mouse";
-        bindings = <
-                &trans  &trans  &trans  &trans  &trans          &trans  &trans  &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans          &trans  &trans  &trans  &trans  &trans
-        &trans  &trans  &trans  &trans  &trans  &trans          &trans  &trans  &trans  &trans  &trans  &trans
-                                &trans  &trans  &trans          &trans  &trans  &trans
-        >;
-    };
+        NUMBER {
+            display-name = "NUMBER";
+            bindings = <
+                &kp DE_ASTERISK  &kp DE_N7  &kp DE_N8  &kp DE_N9  &kp DE_MINUS    &kp DE_SUPER2  &kp DE_LESS_THAN  &kp UP_ARROW    &kp DE_GREATER_THAN  &none
+                &kp DE_SLASH     &kp DE_N4  &kp DE_N5  &kp DE_N6  &kp DE_PLUS     &kp DE_SUPER3  &kp LEFT_ARROW    &kp DOWN_ARROW  &kp RIGHT_ARROW      &none
+&kp LEFT_SHIFT  &kp DE_N0        &kp DE_N1  &kp DE_N2  &kp DE_N3  &kp DE_EQUAL    &none          &none             &kp DE_COMMA    &kp DE_PERIOD        &none  &none
+                                            &trans     &trans     &trans          &trans         &trans            &trans
+            >;
+        };
 
-    Sym {
-        label = "Sym";
-        bindings = <
-                &kp LEFT_BRACE  &kp AMPERSAND  &kp ASTERISK         &kp LEFT_PARENTHESIS   &kp RIGHT_BRACE       &trans      &trans     &trans    &trans    &trans
-                &kp COLON       &kp DOLLAR     &kp PERCENT          &kp CARET              &kp PLUS              &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI
-        &trans  &kp TILDE       &kp EXCL       &kp AT               &kp HASH               &kp PIPE              &trans      &trans     &trans    &trans    &trans  &trans
-                                              &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp UNDERSCORE        &trans      &trans     &trans
-        >;
-    };
+        EXTRA {
+            display-name = "EXTRA";
+            bindings = <
+        &kp F2  &kp F3  &kp F4           &kp F5    &kp F6           &kp F7  &kp F8            &kp F9            &kp F10             &kp F11
+        &none   &none   &kp PAUSE_BREAK  &kp HOME  &kp PAGE_UP      &none   &kp LC(LS(DE_T))  &kp LG(LS(DE_S))  &kp LC(LS(ESCAPE))  &none
+&kp F1  &none   &none   &none            &kp END   &kp PAGE_DOWN    &none   &none             &none             &kp LC(LA(DELETE))  &none    &kp F12
+                        &trans           &trans    &trans           &trans  &trans            &trans
+            >;
+        };
 
-    Num {
-        label = "Num";
-        bindings = <
-                &kp LEFT_BRACKET  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp RIGHT_BRACKET       &trans      &trans     &trans    &trans    &trans
-                &kp SEMICOLON     &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp EQUAL               &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI
-        &trans  &kp GRAVE         &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp BACKSLASH           &trans      &trans     &trans    &trans    &trans  &trans
-                                                &kp SQT       &kp NUMBER_0  &kp MINUS               &trans      &trans     &trans
-        >;
-    };
+        Nav {
+            display-name = "Nav";
+            bindings = <
+       &bootloader  &studio_unlock  &none      &msc SCRL_UP    &to 5       &none     &msc SCRL_LEFT  &mmv MOVE_UP    &msc SCRL_RIGHT  &none
+       &none        &mkp MCLK       &mkp RCLK  &mkp LCLK       &mkp MB4    &mkp MB5  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &none
+&none  &to 0        &to 7           &none      &msc SCRL_DOWN  &none       &none     &none           &none           &none            &none  &none
+                                    &trans     &trans          &trans      &trans    &trans          &trans
+            >;
+        };
 
-    Fun {
-        label = "Fun";
-        bindings = <
-                &kp F12     &kp F7   &kp F8      &kp F9   &kp PRINTSCREEN          &trans      &trans     &trans    &trans    &trans
-                &kp F11     &kp F4   &kp F5      &kp F6   &kp SCROLLLOCK           &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI
-        &trans  &kp F10     &kp F1   &kp F2      &kp F3   &kp PAUSE_BREAK          &trans      &trans     &trans    &trans    &trans  &trans
-                                     &kp C_MENU  &kp TAB  &kp SPACE                &trans      &trans     &trans
-        >;
-    };
+        GAME {
+            display-name = "Game";
+            bindings = <
+         &kp DE_Y        &kp DE_X  &kp DE_C   &kp DE_V      &sl 6       &none      &none           &kp UP_ARROW    &none            &kp LS(TAB)
+         &kp DE_G        &kp DE_Q  &kp DE_W   &kp DE_E      &kp DE_R    &none      &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none
+&kp ESC  &kp LEFT_SHIFT  &kp DE_A  &kp DE_S   &kp DE_D      &kp DE_F    &none      &none           &none           &none            &none        &kp TAB
+                                   &kp LCTRL  &kp LEFT_ALT  &trans      &kp ENTER  &trans          &kp LEFT_GUI
+            >;
+        };
 
-    Button {
-        label = "Button";
-        bindings = <
-                &bt BT_CLR         &bootloader  &trans     &trans      &bt BT_SEL 0         &trans      &trans     &trans  &bootloader    &studio_unlock
-                &kp LGUI           &kp LALT     &kp LCTRL  &kp LSHIFT  &bt BT_SEL 1         &trans  &kp RSHIFT  &kp RCTRL     &kp RALT  &kp RGUI
-        &trans  &ext_power EP_TOG  &trans       &trans     &trans      &bt BT_SEL 2         &trans      &trans     &trans       &trans    &trans  &trans
-                                                &trans     &trans      &trans               &trans      &trans     &trans
-        >;
-    };
+        GAME+ {
+            display-name = "Game+";
+            bindings = <
+         &kp DE_N1  &kp DE_N2  &kp DE_N3  &kp DE_N4  &kp DE_N5    &kp DE_Z  &kp DE_U  &kp DE_I  &kp DE_O  &kp DE_P
+         &kp DE_N6  &kp DE_N7  &trans     &kp DE_N8  &kp DE_N9    &kp DE_H  &kp DE_J  &kp DE_K  &kp DE_L  &kp F12
+&kp TAB  &to 0      &trans     &trans     &trans     &kp DE_N0    &kp DE_N  &kp DE_M  &kp F5    &kp F3    &to 7     &kp LA(F4)
+                               &trans     &trans     &trans       &trans    &trans    &trans
+            >;
+        };
 
-    Game {
-        label = "Game";
-        bindings = <
-                &kp TAB         &kp Z  &kp X       &kp C         &kp V            &trans  &trans  &trans  &trans  &trans
-                &kp LEFT_SHIFT  &kp Q  &kp W       &kp E         &kp R            &trans  &trans  &trans  &trans  &trans
-        &trans  &kp LCTRL       &kp A  &kp S       &kp D         &kp F            &trans  &trans  &trans  &trans  &trans  &trans
-                                       &kp LALT    &lt 9 ESCAPE  &kp SPACE        &trans  &trans  &trans
-        >;
-    };
+        MMO {
+            bindings = <
+                     &kp DE_V  &kp DE_Q  &kp DE_W   &kp DE_E        &kp DE_R    &kp DE_U  &kp DE_I  &kp LS(DE_H)  &kp LC(LA(LS(DE_T)))  &trans
+                     &kp TAB   &kp DE_A  &kp DE_S   &kp DE_D        &kp DE_F    &kp DE_G  &kp DE_H  &trans        &trans                &trans
+&mt ESCAPE DE_CARET  &kp DE_N  &kp DE_Y  &kp DE_X   &kp DE_C        &kp DE_V    &kp DE_Z  &kp DE_O  &trans        &to 0                 &to 5   &trans
+                                         &kp LCTRL  &kp LEFT_SHIFT  &trans      &trans    &trans    &kp LEFT_GUI
+            >;
 
-    Gameplus {
-        label = "Gameplus";
-        bindings = <
-                &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_4  &kp NUMBER_5        &trans  &trans  &trans  &trans  &trans
-                &kp G         &trans        &trans        &trans        &kp T               &trans  &trans  &trans  &trans  &trans
-        &trans  &kp TAB       &trans        &trans        &trans        &kp B               &trans  &trans  &trans  &trans  &trans  &trans
-                                            &kp ESCAPE    &trans        &tog 8              &trans  &trans  &trans
-        >;
+            label = "MMO";
+        };
     };
-
-    // --- Studio growth slots -------------------------------------------
-    // Empty "reserved" layers are invisible to normal builds but become
-    // usable, nameable layers inside ZMK Studio without ever reflashing.
-    studio_extra_1 {
-        status = "reserved";
-    };
-
-    studio_extra_2 {
-        status = "reserved";
-    };
-  };
 };
